@@ -61,7 +61,7 @@ def get_geolocation(pool):
         payload["location"]["string"] = human
         payload["location"]["latitude"] = data["latitude"]
         payload["location"]["longitude"] = data["longitude"]
-        headers = {'Content-Type': 'application/json', 'If-Match': pool["etag"]}
+        headers = {'Content-Type': 'application/json', 'If-Match': pool["_etag"]}
         url = api_url + pool["_id"]
         r = requests.patch(url, headers=headers, data=json.dumps(payload))
         if r.ok:

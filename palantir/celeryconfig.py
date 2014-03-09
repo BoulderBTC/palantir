@@ -7,6 +7,6 @@ CELERY_TIMEZONE = 'UTC'
 CELERYBEAT_SCHEDULE = {
     'everytensec': {
       'task': 'palantir.tasks.get_pools',
-      'schedule': timedelta(seconds=10),
+      'schedule': timedelta(seconds=3600),
     },
 }
