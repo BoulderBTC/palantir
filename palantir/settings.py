@@ -6,7 +6,7 @@ RESOURCE_METHODS = ['GET', 'POST']
 
 ITEM_METHODS = ['GET', 'PATCH', 'DELETE']
 
-
+PAGINATION_LIMIT = 1000
 
 pools_schema = {
     'ip': {
