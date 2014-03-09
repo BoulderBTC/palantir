@@ -7,6 +7,7 @@ app = Celery('tasks')
 
 ports_dict = {
     "litecoin": "9327",
+    "bitcoin": "9332",
 }
 
 def isPool(ipaddr):
@@ -28,7 +29,7 @@ api_url = "http://127.0.0.1:5005/pools/"
 @app.task
 def get_peers(pool):
     url = "http://{0}:{1}/peer_addresses".format(pool["ip"], ports_dict[pool["coin"]])
-    print url
+
     r = requests.get(url, timeout=10)
     assert(r.ok)
     data = r.json().split()
@@ -38,8 +39,7 @@ def get_peers(pool):
             headers = {'Content-Type': 'application/json'}
             data = {"ip": ip, "coin": pool["coin"]}
             r = requests.post(api_url, headers=headers, data=json.dumps(data))
-            if r.ok:
-                print "SSUUUCCESSS ", r.json()
+
 
 
 @app.task
@@ -48,10 +48,17 @@ def get_geolocation(pool):
     r = requests.get(url)
     assert(r.ok)
     data = r.json()
-    print "in geo"
+
     if data["city"] and data["latitude"] and data["longitude"]:
-        print "in geo cond"
         payload = {"location": {}}
+        #human readable version
+        human = data["city"]
+        if data["region_name"]:
+            human += ", " + data["region_name"]
+        if data["country_name"]:
+            human += " " + data["country_name"]
+
+        payload["location"]["string"] = human
         payload["location"]["latitude"] = data["latitude"]
         payload["location"]["longitude"] = data["longitude"]
         headers = {'Content-Type': 'application/json', 'If-Match': pool["etag"]}
@@ -70,5 +77,4 @@ def get_pools():
     for l in data["_items"]:
         get_peers.delay(l)
         if "location" not in l:
-            print "in the condition"
             get_geolocation.delay(l)

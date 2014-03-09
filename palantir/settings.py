@@ -24,6 +24,11 @@ pools_schema = {
     },
     'location': {
         'type': 'dict',
+        'string': {
+            'type': 'string',
+            'minlength': 1,
+            'maxlength': 200,
+        },
         'latitude': {
             'type': 'number',
             'minlength': -90,
