@@ -10,10 +10,10 @@ ports_dict = {
     "bitcoin": "9332",
 }
 
-def isPool(ipaddr):
+def isPool(ipaddr, port):
     result = None
     try:
-        r = requests.get("http://{}:9327/fee".format(ipaddr), timeout=10)
+        r = requests.get("http://{0}:{1}/fee".format(ipaddr, port), timeout=10)
         if r.ok:
             result = ipaddr
     except requests.exceptions.ConnectionError:
@@ -35,7 +35,7 @@ def get_peers(pool):
     data = r.json().split()
     for ip in data:
         ip = ip.split(":")[0]
-        if isPool(ip):
+        if isPool(ip, ports_dict[pool["coin"]]):
             headers = {'Content-Type': 'application/json'}
             data = {"ip": ip, "coin": pool["coin"]}
             r = requests.post(api_url, headers=headers, data=json.dumps(data))
