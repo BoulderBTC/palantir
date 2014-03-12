@@ -8,12 +8,14 @@ app = Celery('tasks')
 ports_dict = {
     "litecoin": "9327",
     "bitcoin": "9332",
+    "auroracoin": "12347",
+    "dogecoin": "22550",
 }
 
 def isPool(ipaddr, port):
     result = None
     try:
-        r = requests.get("http://{0}:{1}/fee".format(ipaddr, port), timeout=10)
+        r = requests.get("http://{0}:{1}/fee".format(ipaddr, port), timeout=20)
         if r.ok:
             result = ipaddr
     except requests.exceptions.ConnectionError:
