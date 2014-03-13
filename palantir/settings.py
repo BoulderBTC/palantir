@@ -16,10 +16,8 @@ pools_schema = {
         'required': True,
         'unique': True,
     },
-    'coin': {
-        'type': 'string',
-        'minlength': 1,
-        'maxlength': 60,
+    'coins': {
+        'type': 'list',
         'required': True,
     },
     'location': {
