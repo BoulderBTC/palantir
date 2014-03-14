@@ -48,7 +48,7 @@ def get_peers(pool):
                 else:
                     data = r.json()
                     if coin not in data["coins"]:
-                        url = api_url + ip + "/" + data["_id"]
+                        url = api_url + data["_id"]
                         headers["If-Match"] = data["_etag"]
                         payload = {"coins": data["coins"] + [coin]}
                         r = requests.patch(url, headers=headers, data=json.dumps(payload))
