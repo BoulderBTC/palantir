@@ -1,3 +1,5 @@
+celerybeat-schedule
+.idea
 addrs
 *.py[cod]
 
