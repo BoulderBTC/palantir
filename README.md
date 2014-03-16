@@ -7,7 +7,7 @@ P2Pool node scanner in Python
 You will need mongo as well as python-eve, requests, and celery.
 
 
-and then you need to run runserver.py and prime the api with a node for each coin you want to scan
+Then you need to run runserver.py and prime the api with a node for each coin you want to scan
 
     import requests
     import json
