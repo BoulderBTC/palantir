@@ -9,23 +9,21 @@ You will need mongo as well as python-eve, requests, and celery.
 
 and then you need to run runserver.py and prime the api with a node for each coin you want to scan
 
-  import requests
-  import json
-  
-  headers = {"content-type": "application/json"}
-  url = "http://palantir.boulderbtc.com:5005/pools/"
-  
-  payload = {
-             "ip": "72.18.213.74",
-             "coins": ["spaincoin"],
-             }
-  r = requests.post(url, headers=headers, data=json.dumps(payload))
-  if r.ok:
+    import requests
+    import json
+    headers = {"content-type": "application/json"}
+    url = "http://palantir.boulderbtc.com:5005/pools/"
+    payload = {
+          "ip": "72.18.213.74",
+          "coins": ["spaincoin"],
+    }
+    r = requests.post(url, headers=headers, data=json.dumps(payload))
+    if r.ok:
       print r.json()
-  else:
+    else:
       print r.text
       
-  print r.ok
+    print r.ok
 
 currently only these coins will work but to get others to work is trivial:
 
