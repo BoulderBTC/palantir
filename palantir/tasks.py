@@ -11,6 +11,9 @@ ports_dict = {
     "auroracoin": "12347",
     "dogecoin": "22550",
     "spaincoin": "25490",
+    "vertcoin": "9171",
+    "feathercoin": "19327",
+    "terracoin": "9322",
 }
 
 def isPool(ipaddr, port):
