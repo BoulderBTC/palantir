@@ -93,7 +93,7 @@ def get_geolocation(pool):
 
 @app.task
 def get_pools():
-    r = requests.get(api_url)
+    r = requests.get("http://127.0.0.1:5005/pools?max_results=500")
     assert(r.ok)
     data = r.json()
     for l in data["_items"]:
