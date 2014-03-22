@@ -39,22 +39,27 @@ def get_peers(pool):
 
         r = requests.get(url, timeout=10)
         assert(r.ok)
-        data = r.json().split()
-        for ip in data:
-            ip = ip.split(":")[0]
-            if isPool(ip, ports_dict[coin]):
-                headers = {'Content-Type': 'application/json'}
-                data = {"ip": ip, "coins": [coin]}
-                r = requests.get(api_url + ip)
-                if not r.ok:
-                    r = requests.post(api_url, headers=headers, data=json.dumps(data))
-                else:
-                    data = r.json()
-                    if coin not in data["coins"]:
-                        url = api_url + data["_id"]
-                        headers["If-Match"] = data["_etag"]
-                        payload = {"coins": data["coins"] + [coin]}
-                        r = requests.patch(url, headers=headers, data=json.dumps(payload))
+        if r.ok:
+            data = r.json().split()
+            for ip in data:
+                ip = ip.split(":")[0]
+                if isPool(ip, ports_dict[coin]):
+                    headers = {'Content-Type': 'application/json'}
+                    data = {"ip": ip, "coins": [coin]}
+                    r = requests.get(api_url + ip)
+                    if not r.ok:
+                        r = requests.post(api_url, headers=headers, data=json.dumps(data))
+                    else:
+                        data = r.json()
+                        if coin not in data["coins"]:
+                            url = api_url + data["_id"]
+                            headers["If-Match"] = data["_etag"]
+                            payload = {"coins": data["coins"] + [coin]}
+                            r = requests.patch(url, headers=headers, data=json.dumps(payload))
+        else:
+            headers = {'Content-Type': 'application/json', 'If-Match': pool["_etag"]}
+            url = api_url + pool["_id"]
+            r = requests.delete(url, headers=headers)
 
 
 
